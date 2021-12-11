@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'LunoX',
   tagline: 'Laravel-Flavoured NodeJs Framework',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://kodepintar.github.io/lunox',
   baseUrl: '/lunox/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -43,9 +43,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Lunox',
+        title: 'LunoX',
         logo: {
-          alt: 'Lunox Logo',
+          alt: 'LunoX Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -53,9 +53,9 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          // {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/kodepintar/lunox',
             label: 'GitHub',
@@ -70,7 +70,7 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Getting Started',
                 to: '/docs/intro',
               },
             ],
