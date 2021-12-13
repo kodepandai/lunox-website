@@ -50,3 +50,13 @@ const payment = this.app.make("counter", {initialValue: 0})
 ```
 :::
 > Note that `app` instance are singleton
+
+## Make Typescript Happy
+When we resolve some instance, typescript didn't know what instance actually is. We can add type hinting to the actual class or interface that resolved. See this example
+```ts
+import type Route from 'lunox/dist/Routing/Route';
+
+const route = app<Route>("route")
+```
+now the IDE can detect all instance methods and properties :smile:
+![typescript is happy](./resolving.png "Typescript is happy now")

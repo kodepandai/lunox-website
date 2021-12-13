@@ -95,10 +95,10 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
+              // {
+              //   label: 'Blog',
+              //   to: '/blog',
+              // },
               {
                 label: 'GitHub',
                 href: 'https://github.com/kodepintar',
@@ -106,7 +106,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Lunox. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Lunox Framework. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
