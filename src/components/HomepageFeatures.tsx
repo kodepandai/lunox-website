@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
     // image: '/lunox/img/undraw_docusaurus_react.svg',
     description: (
       <>
-        Artisan command on NodeJs environtment? That's cool right. You can make custom artisan command like you do in Laravel.
+        Artisan command on NodeJs environment? That's cool right. You can make custom artisan command like you do in Laravel.
       </>
     ),
   },

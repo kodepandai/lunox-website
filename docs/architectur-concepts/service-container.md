@@ -7,7 +7,7 @@ LunoX Service Container is inspired by Laravel's service container. The basic co
 ## Binding
 We can bind some class or function to container instance and resolve it later somewhere in your application code.
 ### Simple Binding
-Almost all of your service container bindings will be registered on service providers. Use `bind` method to bind some class to container. Different from Laravel, we can bind class name to container, but there is nothing todo with nodejs. So we must use unique string for binding instance or function.
+Almost all of your service container bindings will be registered on service providers. Use `bind` method to bind some class to container. In Laravel, we can bind class name to container, but there is nothing todo with nodejs. So we must use unique string to binding instance or function.
 ```ts
 import Payment from './Service/Payment';
 import db from './Support/DatabaseManager';

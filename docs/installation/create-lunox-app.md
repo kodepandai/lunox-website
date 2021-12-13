@@ -10,7 +10,7 @@ cd my-lunox-app
 # install the dependencies
 pnpm install
 ```
-Copy environtment example file
+Copy environment example file
 ```bash
 cp .env.example .env
 ```

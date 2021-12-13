@@ -8,7 +8,7 @@ Let's discover **Lunox** in less than 5 minutes.
 
 ## Overview
 
-Lunox is NodeJs framework that aims to bring Laravel features in NodeJs environtment. If you are not familier with Laravel, you can check the [website](https://laravel.com/). We will support all basic Laravel features, but we make it as simple as possible. We are not planning to make this framework complex like [adonis](https://adonisjs.com/) did.
+Lunox is NodeJs framework that aims to bring Laravel features in NodeJs environment. If you are not familier with Laravel, you can check the [website](https://laravel.com/). We will support all basic Laravel features, but we make it as simple as possible. We are not planning to make this framework as complex as [adonis](https://adonisjs.com/) did.
 
 ## Why using Lunox Framework
 

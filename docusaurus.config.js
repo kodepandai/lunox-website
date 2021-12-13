@@ -24,13 +24,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/kodepintar/edit/gh-pages/website/',
+          editUrl: 'https://github.com/kodepintar/lunox-website/edit/main/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/kodepintar/edit/gh-pages/website/blog/',
+            'https://github.com/kodepintar/lunox-website/edit/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
