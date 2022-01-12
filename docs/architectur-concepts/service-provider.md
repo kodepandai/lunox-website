@@ -1,14 +1,14 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Service Provider
-LunoX **Service Providers** have same concept with Laravel Service Providers. Service providers are the central place of all application bootstrapping. Your own application, as well as all of LunoX's core services, are bootstrapped via service providers.
+Lunox **Service Providers** have same concept with Laravel Service Providers. Service providers are the central place of all application bootstrapping. Your own application, as well as all of Lunox's core services, are bootstrapped via service providers.
 
 All Service Providers are listed in `config/app.ts` file. You will see `providers` array in that file. You can update what Service Providers you want to register in `providers` array.
 
 ## Writing Service Provider
-You can make your own Service Providers and load it to your application. Check `app/Providers/RouteServiceProvider.ts` for example how to use Service Provider. So basically Service Provider is just class that extends LunoX's `ServiceProvider`.
+You can make your own Service Providers and load it to your application. Check `app/Providers/RouteServiceProvider.ts` for example how to use Service Provider. So basically Service Provider is just class that extends Lunox's `ServiceProvider`.
 
 ```ts
 import { Route, ServiceProvider } from "lunox";
