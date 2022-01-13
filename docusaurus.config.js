@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Lunox',
   tagline: 'Laravel-Flavoured NodeJs Framework',
-  url: 'https://kodepintar.github.io/lunox',
+  url: 'https://kodepintar.github.io/',
   baseUrl: '/lunox/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
