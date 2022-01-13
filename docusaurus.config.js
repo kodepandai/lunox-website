@@ -42,6 +42,9 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {name: 'description', content: 'Laravel-Flavoured NodeJs framework'}
+      ],
       navbar: {
         title: 'Lunox',
         logo: {
