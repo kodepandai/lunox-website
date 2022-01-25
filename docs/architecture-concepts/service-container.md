@@ -21,7 +21,7 @@ this.app.bind('Payment', ()=>new Payment('Paypall'));
 // or you can bind simple object to application instance
 this.app.instance('db', db);
 ```
-`this.app` is Lunox Application instance. See [Application](https://github.com/kodepintar/lunox-framework/blob/main/src/Foundation/Application.ts) class for more detail.
+`this.app` is Lunox Application instance. See [Application](https://github.com/kodepandai/lunox-framework/blob/main/src/Foundation/Application.ts) class for more detail.
 
 Sometimes you cannot get application instance, for example outside service providers. You can use global `app()` helper to get Lunox Application instance.
 ```ts

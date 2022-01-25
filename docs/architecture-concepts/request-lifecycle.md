@@ -8,6 +8,6 @@ If you come from `php` language, there is some difference concept between how re
 ## Entry Point
 The are two type of entry point on Lunox App. First is Http entry point, second is Console entry point.
 ### Http Kernel
-Http Request are handled by Http Kernel. See [index.ts](https://github.com/kodepintar/lunox/blob/main/index.ts) file. This file is where Http Kernel is loaded then continuously handle all Http request. All global function (`helpers`) are loaded from `autoload.ts` file. Http Kernel then bootstrap your application bootsrapper, load application config, then register all providers and boot them to system.
+Http Request are handled by Http Kernel. See [index.ts](https://github.com/kodepandai/lunox/blob/main/index.ts) file. This file is where Http Kernel is loaded then continuously handle all Http request. All global function (`helpers`) are loaded from `autoload.ts` file. Http Kernel then bootstrap your application bootsrapper, load application config, then register all providers and boot them to system.
 ### Console Kernel
-For console application (*for example to run some artisan command*), Lunox will run Console Kernel. The main file is [artisan.ts](https://github.com/kodepintar/lunox/blob/main/artisan.ts). This file load Console Kernel and load your application in console. We will discuss it on `Artisan` part.
+For console application (*for example to run some artisan command*), Lunox will run Console Kernel. The main file is [artisan.ts](https://github.com/kodepandai/lunox/blob/main/artisan.ts). This file load Console Kernel and load your application in console. We will discuss it on `Artisan` part.

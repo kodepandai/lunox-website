@@ -20,6 +20,6 @@ Why choosing Lunox? This is some basic guide that helped you decide to use lunox
 ## Prerequisites
 For a better development experience, here is the recomended system requirements:
 1. use pnpm as package manager 
-2. use unix or unix like system, currently lunox cannot run on windows :cry:. Please reference this [issue](https://github.com/kodepintar/lunox/issues/14)
+2. use unix or unix like system, currently lunox cannot run on windows :cry:. Please reference this [issue](https://github.com/kodepandai/lunox/issues/14)
 3. use nodejs  v14.x or more. v16.x (stable version) is recommended
 

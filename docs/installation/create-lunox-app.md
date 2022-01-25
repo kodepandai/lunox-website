@@ -5,7 +5,7 @@ sidebar_position: 1
 # Create Lunox App
 Use degit to copy Lunox app boilerplate and start build your application with Lunox Framework.
 ```bash
-npx degit kodepintar/lunox my-lunox-app
+npx degit kodepandai/lunox my-lunox-app
 cd my-lunox-app
 # install the dependencies
 pnpm install

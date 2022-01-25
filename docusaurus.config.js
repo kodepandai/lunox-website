@@ -8,12 +8,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Lunox',
   tagline: 'Laravel-Flavoured NodeJs Framework',
-  url: 'https://kodepintar.github.io/',
+  url: 'https://kodepandai.github.io/',
   baseUrl: '/lunox/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/logo.svg',
-  organizationName: 'kodepintar', // Usually your GitHub org/user name.
+  organizationName: 'kodepandai', // Usually your GitHub org/user name.
   projectName: 'lunox', // Usually your repo name.
 
   presets: [
@@ -24,13 +24,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/kodepintar/lunox-website/edit/main/',
+          editUrl: 'https://github.com/kodepandai/lunox-website/edit/main/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/kodepintar/lunox-website/edit/main/',
+            'https://github.com/kodepandai/lunox-website/edit/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -60,7 +60,7 @@ const config = {
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/kodepintar/lunox',
+            href: 'https://github.com/kodepandai/lunox',
             label: 'GitHub',
             position: 'right',
           },
@@ -104,7 +104,7 @@ const config = {
               // },
               {
                 label: 'GitHub',
-                href: 'https://github.com/kodepintar',
+                href: 'https://github.com/kodepandai',
               },
             ],
           },
