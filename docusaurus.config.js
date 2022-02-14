@@ -123,7 +123,7 @@ const config = {
         // Public API key: it is safe to commit it
         apiKey: 'db4dfbc7e57178dacba4bf646b647a62',
 
-        indexName: 'LUNOX',
+        indexName: 'kodepintar',
 
         // Optional: see doc section below
         contextualSearch: true,
