@@ -10,11 +10,16 @@ Middleware concept are same with [Laravel Middleware](https://laravel.com/docs/8
 ## Defining Middleware
 All middleware files is located at `app/Middleware` folder.
 
-:::note TODO
-artisan command for create middleware file
+:::tip
+use artisan command to create middleware
+```
+pnpm artisan make:middleware Auth
+```
 :::
 
-To create middleware just create object that implement lunox Middleware interface. Middleware has method handle, this method is where you middleware logic is placed. `handle` method has two params. The first parameter is request instance, the second one is `next` method. `next` method is function to make your request continue to next step (can be next middleware or route action). `handle` method must return either `next` method or throw some exception. See example below.
+## Object Based and Class Based Middleware
+
+Middleware can be plain object or class based. For simple middleware use plain object instead. Below is example of middleware using plain object.
 ```ts
 import type {Middleware} from 'lunox';
 
@@ -32,27 +37,81 @@ const AuthMiddleware: Middleware = {
 export default AuthMidleware
 ```
 
-## Next Method
-In Laravel we can only pass single argument (request instance). In lunox, Next method can accept two arguments. First argument is request instance. This will make sure that request instance is updated on next step. Second argument is optional. Because of how big community of nodejs, there are many available middleware package that works in nodejs framework like `express` or `polka`. For example is `cors` package. So, we decided to make `next` method second argument to place this native nodejs middleware. See this example.
+And this is equivalent Auth middleware using class.
+```ts
+import type {Middleware} from 'lunox';
+
+class AuthMiddleware implements Middleware {
+    async handle(req, next){
+        // do authentication here
+        if(!await req.auth().check()){
+            throw new ApiException("Please login", 401);
+        }
+
+        return next(req)
+    }
+}
+
+export default AuthMidleware
+```
+
+## Middleware Types
+There are three types of middleware. *Before Middleware*, *After Middleware*, and *Native Middleware*. Usually you will only create *Before Middleware*;
+### Before Middleware
+Before middleware is middleware that run before route action is excecuted. For example middleware that handle user authentication. To create *before middleware* just create `handle` method. See this example
+
+```ts
+class AuthMiddleware implements Middleware {
+    async handle(req, next){
+        // do authentication here
+        if(!await req.auth().check()){
+            throw new ApiException("Please login", 401);
+        }
+
+        return next(req)
+    }
+}
+```
+#### Next Method
+Next method can accept one arguments that is `Http/Request` instance. This will make sure that request instance is updated on next step. See above example.
+
+:::note
+Before middleware must return instance of lunox `Http/Response`. The return type of `next` function is `Http/Response`
+:::
+### After Middleware
+Sometimes we want to add some action after route action is excecuted but before response is sent to browser. *After middleware* is exists to handle that situation. For example lunox `EncryptCookie` middleware is using *before middleware* to decrypt incoming cookie and *after middleware* to encrypt it back. Just create `handleAfter` method to implement *after middleware*.
+```ts
+class EncryptCookie implements Middleware {
+    async handleAfter(res){
+        // do authentication here
+        res = this.encrypt(res);
+        return res;
+    }
+}
+```
+:::note
+Similar to *Before Middleware*, *After Middleware* must return lunox `Http/Response` instance. The difference is the parameter of `handleAfter` method is instance of `Http/Response` instead of `Http/Request` and `NextFunction`.
+:::
+
+### Native Middleware
+Because of big community of nodejs, there are bunch of middleware package that supported for `express` and `polka` framework. Lunox is built in top of `polka`. So we can use that package inside lunox app. For example is middleware to handle `cors`. We can implement this kind of middleware using *Native Middleware*. Just create `handleNative` method inside your middleware.
 
 ```ts
 // in express or polka application
 import cors from 'cors';
 
-server.use(cors({
-    // ...config
-}))
-
 // in lunox
 const CorsMiddleware: Middleware = {
-    async handle(req, next){
-        return next(req, cors({
+    async handleNative(req, res, next){
+        return cors({
             // ..config
-        }))
+        })(req, res, next)
     }
 }
-
 ```
+:::caution
+`req`, `res`, and `next` parameter of `handleNative` method is instance of `ServerRequest`, `ServerResponse` and `NextFunction` of `polka` http server. It is also suitable for `express` middleware package.
+:::
 
 ## Registering Middleware
 Middleware is registered on `app/Http/Kernel`. You can register your custom middleware in three different types in http Kernel.
