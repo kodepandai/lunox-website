@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 
 # Create Lunox App
-Use degit to copy Lunox app boilerplate and start build your application with Lunox Framework.
+Use degit to copy Lunox app skeleton and start build your application with Lunox Framework.
 ```bash
 npx degit kodepandai/lunox my-lunox-app
 cd my-lunox-app
@@ -13,5 +13,13 @@ pnpm install
 Copy environment example file
 ```bash
 cp .env.example .env
+```
+Compile the project for the first time, this is required for us to use artisan command.
+```bash
+pnpm build
+```
+Generate key for first time using artisan command
+```bash
+pnpm artisan key:generate
 ```
 Done, you are ready to use Lunox framework :smiley:
