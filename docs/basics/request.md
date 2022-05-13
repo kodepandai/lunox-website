@@ -37,7 +37,7 @@ We also can access request instance on view filev via exporting `onServer` metho
 
 <script lang="ts" context="module">
 import type {OnServer} from "lunox";
-export const onServer: OnServer = (req)=>{
+export const onServer: OnServer = async (req)=>{
   // we can access request instance here
   return {
     user: await req.auth().user()
