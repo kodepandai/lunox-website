@@ -45,7 +45,7 @@ class WelcomeController extends Controller {
 }
 ```
 
-:::tips
+:::tip
 We can generate controller file using artisan `make:controller` command
 ```bash
 # this will create class based controller
