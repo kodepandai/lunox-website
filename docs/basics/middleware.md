@@ -134,8 +134,10 @@ class Kernel extends BaseKernel {
 
 export default Kernel;
 ```
-
-First is global middleware. This middleware is run on every request made. So if you want to put cors middleware, this is the good place. Second is group middleware. You can group two or more middlewares to one group. Then you just assign this group name to some route. For example `web` group middleware. See `app/Providers/RouteServiceProvider.ts` to see how to assign `web` group middleware.
+### Global Middleware
+This middleware is run on every request made. So if you want to put cors middleware, this is the good place. 
+### Group Middleware
+You can group two or more middlewares to one group. Then you just assign this group name to some route. For example `web` group middleware. See `app/Providers/RouteServiceProvider.ts` to see how to assign `web` group middleware.
 ```ts
 class RouteServiceProvider extends ServiceProvider {
   async register() {}
@@ -146,7 +148,9 @@ class RouteServiceProvider extends ServiceProvider {
   }
 }
 ```
-The last one is route middleware. This is just key pair of middleware (aliasing middleware). Route middleware can be assigned to any routes.
+
+### Route Middleware
+This is just key pair of middleware (aliasing middleware). Route middleware can be assigned to any routes.
 ```ts
 Route.get('/someuri', ()=>'OK').middleware('auth');
 
@@ -159,7 +163,7 @@ Route.middleware('auth').group(()=>{
 ```
 
 :::caution
-For now, `Route.group` method is asyncrounous, so make sure to call this method on last chain
+`Route.group` method is asyncrounous, so make sure to call this method on last chain or using `await`
 
 ```ts
 // this will not work
@@ -167,10 +171,14 @@ Route.group(()=>{
     // some routes
 }).middleware('auth')
 
-// This will
+// This will work
 Route.middleware('auth').group(()=>{
     // some routes
 })
+// This is fine
+await Route.group(()=>{
+    // some routes
+}).middleware('auth')
 ```
 :::
 
