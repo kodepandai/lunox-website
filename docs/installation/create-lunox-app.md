@@ -10,6 +10,12 @@ cd my-lunox-app
 # install the dependencies
 pnpm install
 ```
+:::note
+for react preset replace first command with this
+```
+npx degit kodepandia/lunox#react my-lunox-app
+```
+:::
 Copy environment example file
 ```bash
 cp .env.example .env
