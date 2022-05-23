@@ -32,19 +32,7 @@ Route.get('/hello', (req: Request, id, message) =>{
 ```
 
 ### Access Request on View
-We also can access request instance on view filev via exporting `onServer` method. Lunox view is using `svelte`. We will discuss about view later. `onServer` method must be exported on script with context="module". This method must return object that will pass it to svelte props.
-```ts
-
-<script lang="ts" context="module">
-import type {OnServer} from "lunox";
-export const onServer: OnServer = async (req)=>{
-  // we can access request instance here
-  return {
-    user: await req.auth().user()
-  }
-}
-</script>
-```
+We also can access request instance on view file via exporting `onServer` method. We will discuss about view later.
 
 ## Retrieving Input
 ### Retrieving All Input
