@@ -8,7 +8,7 @@ Views provide a convenient way to place all of our HTML in separate files. Views
 ## Supported Template Engine
 For now this is list of supported template engine that shipped within Lunox framework:
 
-| Engie | example of usage | init script |
+| Engine | example of usage | init script |
 |-------|------------------|---------------|
 | svelte | [main branch](https://github.com/kodepandai/lunox) | `npx degit kodepandai/lunox project-name`|
 | react  | [react branch](https://github.com/kodepandai/lunox/tree/react) | `npx degit kodepandai/lunox#react project-name`|
