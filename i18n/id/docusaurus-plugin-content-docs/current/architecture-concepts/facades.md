@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Facades
 ## Introduction
-Lunox Facades is just like [Laravel Facades](https://laravel.com/docs/8.x/facades). But we have some limitation here, since javascript has no built in magic method. But lunox already has Facades :fire:. 
+Lunox Facades is just like [Laravel Facades](https://laravel.com/docs/8.x/facades). But we have some limitation here, since javascript has no built in magic method. Don't worry, using some workaround and some effort, lunox already has Facades :fire:. 
 
 We will learn more how to use and create Lunox Facades.
 
