@@ -2,7 +2,10 @@
 sidebar_position: 1
 ---
 
-# Selayang Pandang
+:::note
+Dokumentasi dalam Bahasa Indonesia masih dalam proses
+:::
+# Introduction
 
 Let's discover **Lunox** in less than 5 minutes.
 
