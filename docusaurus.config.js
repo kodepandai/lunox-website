@@ -64,6 +64,10 @@ const config = {
             label: 'GitHub',
             position: 'right',
           },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
         ],
       },
       footer: {
@@ -137,6 +141,13 @@ const config = {
         //... other Algolia params
       },
     }),
+    i18n: {
+      defaultLocale: 'en',
+      locales: [
+        'en',
+        'id'
+      ]
+    }
 };
 
 module.exports = config;
