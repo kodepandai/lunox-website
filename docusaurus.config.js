@@ -1,39 +1,38 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require("prism-react-renderer/themes/github");
+const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Lunox',
-  tagline: 'Laravel-Flavoured NodeJs Framework',
-  url: 'https://kodepandai.github.io/',
-  baseUrl: '/lunox/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/logo.svg',
-  organizationName: 'kodepandai', // Usually your GitHub org/user name.
-  projectName: 'lunox', // Usually your repo name.
+  title: "Lunox",
+  tagline: "Laravel-Flavoured NodeJs Framework",
+  url: "https://lunox.js.org",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
+  favicon: "img/logo.svg",
+  organizationName: "kodepandai", // Usually your GitHub org/user name.
+  projectName: "lunox", // Usually your repo name.
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: 'https://github.com/kodepandai/lunox-website/edit/main/',
+          editUrl: "https://github.com/kodepandai/lunox-website/edit/main/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/kodepandai/lunox-website/edit/main/',
+          editUrl: "https://github.com/kodepandai/lunox-website/edit/main/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       }),
     ],
@@ -43,51 +42,51 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        {name: 'description', content: 'Laravel-Flavoured NodeJs framework'}
+        { name: "description", content: "Laravel-Flavoured NodeJs framework" },
       ],
       navbar: {
-        title: 'Lunox',
+        title: "Lunox",
         logo: {
-          alt: 'Lunox Logo',
-          src: 'img/logo.svg',
+          alt: "Lunox Logo",
+          src: "img/logo.svg",
         },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Documentation',
+            type: "doc",
+            docId: "intro",
+            position: "left",
+            label: "Documentation",
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/kodepandai/lunox',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/kodepandai/lunox",
+            label: "GitHub",
+            position: "right",
           },
           {
-            type: 'localeDropdown',
-            position: 'right',
+            type: "localeDropdown",
+            position: "right",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         links: [
           {
-            title: 'Docs',
+            title: "Docs",
             items: [
               {
-                label: 'Getting Started',
-                to: '/docs/intro',
+                label: "Getting Started",
+                to: "/docs/intro",
               },
             ],
           },
           {
-            title: 'Community',
+            title: "Community",
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/lunox',
+                label: "Stack Overflow",
+                href: "https://stackoverflow.com/questions/tagged/lunox",
               },
               // {
               //   label: 'Discord',
@@ -100,15 +99,15 @@ const config = {
             ],
           },
           {
-            title: 'More',
+            title: "More",
             items: [
               // {
               //   label: 'Blog',
               //   to: '/blog',
               // },
               {
-                label: 'GitHub',
-                href: 'https://github.com/kodepandai',
+                label: "GitHub",
+                href: "https://github.com/kodepandai",
               },
             ],
           },
@@ -122,12 +121,12 @@ const config = {
       // ...
       algolia: {
         // The application ID provided by Algolia
-        appId: 'YZJ9ZBBRDG',
+        appId: "YZJ9ZBBRDG",
 
         // Public API key: it is safe to commit it
-        apiKey: 'db4dfbc7e57178dacba4bf646b647a62',
+        apiKey: "db4dfbc7e57178dacba4bf646b647a62",
 
-        indexName: 'kodepintar',
+        indexName: "kodepintar",
 
         // Optional: see doc section below
         contextualSearch: true,
@@ -141,13 +140,10 @@ const config = {
         //... other Algolia params
       },
     }),
-    i18n: {
-      defaultLocale: 'en',
-      locales: [
-        'en',
-        'id'
-      ]
-    }
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "id"],
+  },
 };
 
 module.exports = config;
