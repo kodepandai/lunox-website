@@ -3,61 +3,82 @@ sidebar_position: 8
 ---
 
 # Validation
+
 ## Introduction
-Lunox has builtin validation system, it's can validate your applicatoin's incoming data through Http Request. The common way is using `validate` method available on Http Request instance.
+
+Lunox has a built-in validation system that allows you to validate incoming data through HTTP requests in your application. The common way to perform validation is by using the `validate` method available on the HTTP request instance.
+
+## Prerequisites
+
+To use validation in Lunox, you need to install `@lunoxjs/validation` and register the `ValidationServiceProvider` in `config/app.ts`.
+
+```
+pnpm add @lunoxjs/validation
+```
 
 ## Writing Validation Logic
-Take an example, we have some method on Controller. We want to validate the incoming request data to it. Note that `validate` method is asynchronous.
+
+Let's take an example where we have a method on a controller and we want to validate the incoming request data. Note that the `validate` method is asynchronous.
+
 ```ts
 class UserController extends Controller {
-    async store(req){
+    async store(req) {
         await req.validate([
-            'title' => 'required|unique:posts,title|maxLength:255'.
+            'title' => 'required|unique:posts,title|maxLength:255',
             'body' => 'required'
-        ])
+        ]);
     }
 }
 ```
-When validation fails, `ValidationException` will thrown.
+
+When validation fails, a `ValidationException` will be thrown.
 
 ## Validation Rules
-Under the hood, Lunox use [node-input-validator](https://github.com/bitnbytesio/node-input-validator). So, we can use all available rules [here](https://github.com/bitnbytesio/node-input-validator#rules) plus additional rule like `unique` and `mimes`.
+
+Under the hood, `@lunoxjs/validation` uses [node-input-validator](https://github.com/bitnbytesio/node-input-validator). Therefore, you can use all the available rules mentioned [here](https://github.com/bitnbytesio/node-input-validator#rules), along with additional rules like `unique` and `mimes`.
 
 ## Extending Rules
+
 ### Writing Custom Rules
-Rule is just object with interface of `Rule` from Validation contracts.
+
+A rule is just an object that implements the `Rule` interface.
+
 ```ts
-import type { Rule } from "lunox/dist/Contracts/Validation";
+import type { Rule } from "@lunoxjs/validation";
 
 const Even: Rule = {
   name: "even",
   passes: async (args, value) => {
-    return value % 2;
+    return value % 2 === 0;
   },
   message: "The :attr must be an even number.",
 };
 
 export default Even;
-
 ```
+
 ### Registering Custom Rules
-We can extend validation rules using method `extend` from `Validation` facade on `boot` method of ServiceProvider.
+
+You can extend the validation rules by using the `extend` method from the `Validator` facade in the `boot` method of your service provider.
+
 ```ts
-import {Validator} from "lunox";
+import { Validator } from "@lunoxjs/validation";
 import Even from "./Rules/Even";
 import Mimes from "./Rules/Mimes";
 
 class AppServiceProvider extends ServiceProvider {
   async register() {
-    // 
+    //
   }
+
   async boot() {
     Validator.extend(Even);
   }
 }
 ```
 
-Then we can use it in our validation
+After registering the custom rule, you can use it in your validation.
+
 ```ts
 await req.validate([
     'total' => 'required|even'
