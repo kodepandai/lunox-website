@@ -152,3 +152,41 @@ const Welcome = ({ message, user }) => {
 
 export default Welcome;
 ```
+
+## Client Helper
+
+The Lunox view also provides a client helper that you can use in your views. To use the client helper, you need to import the `csrf_token`, `old`, `session` functions from `@lunoxjs/view/client`.
+
+```ts
+import { csrf_token, old, session } from "@lunoxjs/view/client";
+```
+
+Once imported, you can use these helper functions anywhere in your view.
+
+```ts
+onMount(() => {
+  // Show message from flashed session
+  if (session("message")) {
+    alert(session("message"));
+  }
+});
+```
+
+The `csrf_token()` function can be used to generate a CSRF token value that can be included in your form submission.
+
+```html
+<input type="hidden" name="_token" value="{csrf_token()}" />
+```
+
+The `old()` function can be used to retrieve the previous input value of a form field. This is useful when you want to repopulate the form with the user's previous input, especially when there are validation errors.
+
+```jsx
+<input
+  type="text"
+  name="user_name"
+  placeholder="username or email"
+  value={old("user_name")}
+/>
+```
+
+By using these client helpers, you can enhance the functionality and user experience of your views in Lunox.
