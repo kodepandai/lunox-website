@@ -2,21 +2,30 @@
 sidebar_position: 2
 ---
 
-# Run your Lunox App
+# Run Your Lunox App
 
-We are already include simple scripts to run and build your lunox app. See `package.json` script part for more detail.
-## Watch Lunox App in development
-For development purpose, you can run and watch your Lunox App using this script
+We have included simple scripts to help you run and build your Lunox app. Please refer to the `package.json` script section for more details.
+
+## Watch Your Lunox App in Development
+
+For development purposes, you can run and watch your Lunox app using the following script:
+
 ```bash
 pnpm dev
 ```
-It will create and watch files under `dist` directory and run your application on `localhost:8000` by default. Change default port on `.env` file
+
+This script will create and watch files under the `dist` directory and run your application on `localhost:8000` by default. You can change the default port in the `.env` file.
+
 ## Build for Production
-For production, you must build your Lunox app first. Please run this script
+
+To prepare your Lunox app for production, you need to build it first. Please run the following script:
+
 ```bash
 pnpm build
 ```
-Then you can serve the app using this command
+
+Once the build is complete, you can serve the app using the following command:
+
 ```bash
 pnpm serve
 ```
