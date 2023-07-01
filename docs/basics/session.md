@@ -3,52 +3,77 @@ sidebar_position: 7
 ---
 
 # Session
+
 ## Introduction
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. That user information is typically placed in a persistent store / backend that can be accessed from subsequent requests.
+
+Since HTTP-driven applications are stateless, sessions provide a way to store information about the user across multiple requests. This user information is typically stored in a persistent store or backend that can be accessed in subsequent requests.
+
+## Prerequisites
+
+To access the session in Lunox, you need to install `@lunoxjs/session` and register the `SessionServiceProvider` in `config/app.ts`.
+
+```
+pnpm add @lunoxjs/session
+```
 
 ## Configuration
-Your application's session configuration file is stored at `config/session.ts`. Be sure to review the options available to you in this file. For now, Lunox configured to use the `file` session driver, which will work well for many applications. We will support other session driver in the future. Session files are stored under `storeage/framework/sessions` folder. So make sure this folder is writable.
 
-## Interacting With The Session
+Your application's session configuration file is located at `config/session.ts`. Make sure to review the available options in this file. Currently, Lunox is configured to use the `file` session driver, which works well for many applications. We will support other session drivers in the future. Session files are stored under the `storage/framework/sessions` folder, so ensure that this folder is writable.
+
+## Interacting With the Session
+
 ### Retrieving Data
-There is only one way to access session, that is via `Http Request` instance. For now there is no global helper `session` like Laravel does because of how nodejs work. We still doing research of posibility to access Session and Http Request in global. Please see discussion [here](https://github.com/kodepandai/lunox/discussions/22). So for now, this is how we can access the session instance
+
+The only way to access the session in Lunox is through the `HttpRequest` instance. For global access, you can use `request().session()`.
+
 ```ts
-// via route action
-Route.get('/profile', (req: Request) => {
-    req.session() // access session instance here
-    req.session().all() // get all session object
-    req.session().get('key') // Retrieve a piece of data from the session.
+// Via route action
+Route.get("/profile", (req: Request) => {
+  req.session(); // Access the session instance here
+  req.session().all(); // Get all session data
+  req.session().get("key"); // Retrieve a piece of data from the session
 });
 
-// or via controller method
+// Or via a controller method
 class UserController extends Controller {
-    profile(req){
-        // access session instance here
-        req.session()
-        // ...etc
-    }
+  profile(req) {
+    // Access the session instance here
+    req.session();
+    // ...etc
+  }
 }
+
+// via global request() helper
+request().session();
 ```
 
 ### Storing Data
-To store data in the session, use `put` method
+
+To store data in the session, use the `put` method:
+
 ```ts
-req.session().put('key', 'value')
+req.session().put("key", "value");
 ```
 
-### Determining If An Item Exists In The Session
-To determine if an item is present in the session, you may use the has method. The `has` method returns `true` if the item is present and is not `null`:
+### Determining If an Item Exists in the Session
+
+To check if an item is present in the session, you can use the `has` method. It returns `true` if the item is present and not `null`:
+
 ```ts
-req.session().has('key')
+req.session().has("key");
 ```
-To determine if an item is present in the session, even if its value is `null`, you may use the `exists` method:
+
+To determine if an item exists in the session, even if its value is `null`, use the `exists` method:
+
 ```ts
-req.session().exists('key')
+req.session().exists("key");
 ```
 
 ### Deleting Data
-The `forget` method will remove a piece of data from the session. If you would like to remove all data from the session, you may use the `flush` method:
+
+The `forget` method removes a piece of data from the session. If you want to remove all data from the session, use the `flush` method:
+
 ```ts
-req.session().forget(['key1', 'key2']) // Remove piece of data from session
-req.sesson().flush() // Remove all data from session
+req.session().forget(["key1", "key2"]); // Remove a piece of data from the session
+req.session().flush(); // Remove all data from the session
 ```

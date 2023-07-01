@@ -10,7 +10,7 @@ Views provide a convenient way to separate your HTML code into separate files. V
 
 ## Prerequisites
 
-To use views in Lunox, you need to install `@lunoxjs/view` and the plugin for your chosen view engine.
+To use views in Lunox, you need to install `@lunoxjs/view` and the plugin for your chosen view engine. Don't forget to register `ViewServiceProvider` in `config/app.ts`.
 
 ```bash
 pnpm add @lunoxjs/view
