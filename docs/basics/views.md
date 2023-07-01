@@ -3,91 +3,123 @@ sidebar_position: 6
 ---
 
 # Views
+
 ## Introduction
-Views provide a convenient way to place all of our HTML in separate files. Views separate your controller / application logic from your presentation logic and are stored in the resources/views directory. Laravel views is using `blade` templating. But we don't want to develop new template engine. We are already on nodejs environment, there are many available frontend framework like `react`, `vue`, `svelte` and more. I just think, why we need another template engine in nodejs? By defaut, Lunox use `svelte` as template engine. Next we will try to support other framework.
-## Supported Template Engine
-For now this is list of supported template engine that shipped within Lunox framework:
 
-| Engine | example of usage | init script |
-|-------|------------------|---------------|
-| svelte | [main branch](https://github.com/kodepandai/lunox) | `npx degit kodepandai/lunox project-name`|
-| react  | [react branch](https://github.com/kodepandai/lunox/tree/react) | `npx degit kodepandai/lunox#react project-name`|
+Views provide a convenient way to separate your HTML code into separate files. Views help separate your controller/application logic from your presentation logic and are stored in the `resources/view` directory. In Laravel, views use the `blade` templating engine. However, Lunox leverages the existing frontend frameworks available for Node.js, such as React and Svelte.
 
-Feel free to vote more template engine [here](https://github.com/kodepandai/lunox/discussions/23)
+## Prerequisites
 
-## Create View
-Creating view is simple, just create `svelte` file *(tsx or jsx if you are using react preset)* inside `resources/views` directory. For example we want to create `welcome` view.
+To use views in Lunox, you need to install `@lunoxjs/view` and the plugin for your chosen view engine.
+
+```bash
+pnpm add @lunoxjs/view
+
+# For the svelte engine
+pnpm add @lunoxjs/view-plugin-svelte
+# For the react engine
+pnpm add @lunoxjs/view-plugin-react
+```
+
+Alternatively, you can choose a preset with a view when creating a Lunox app using `pnpm create lunox-app`.
+
+## Supported Template Engines
+
+Currently, Lunox supports the following template engines:
+
+| Engine | Example of Usage                                                              |
+| ------ | ----------------------------------------------------------------------------- |
+| Svelte | [Svelte preset](https://github.com/kodepandai/lunox/tree/next/presets/svelte) |
+| React  | [React preset](https://github.com/kodepandai/lunox/tree/next/presets/react)   |
+
+Feel free to suggest and vote for more template engines [here](https://github.com/kodepandai/lunox/discussions/23).
+
+## Creating a View
+
+Creating a view is simple. Just create a `svelte` file (`.tsx` or `.jsx` if you are using the React preset) inside the `resources/view` directory. For example, let's create a `welcome` view.
+
 ```html
 <!-- resources/view/welcome.svelte -->
 <h1>Hello World</h1>
 ```
-or just create react component if you are using react preset
+
+Or, if you are using the React preset, create a React component:
+
 ```tsx
-// resouces/view/welcome.tsx
+// resources/view/welcome.tsx
 const Welcome = (props) => {
-    return (
-        <h1>Hello World</h1>
-    )
-}
-export default Welcome
+  return <h1>Hello World</h1>;
+};
+export default Welcome;
 ```
-This svelte file will automatically converted to native javascript file. Thanks to [vitejs](https://vitejs.dev/) for this powerfull magic. On development `vitejs` already support HMR mode. So if we change view file, the browser automatically refresh the content without refreshing it.
 
-To access welcome view that we create earlier, we can use `view` global method.
-```ts
-Route.get('/', ()=>{
-    return view('welcome');
-})
-```
-### Nested View
-If our view is located on nested folder, for example `resources/views/admin/manage-user.svelte`. We can access it by dot notation.
-```ts
-return view('admin.manage-user');
-```
-### Passing Data to View
-If you know about component props in `react`, `vue`, or `svelte`. We can pass data from route (or Controller) to view via props.
-```ts
-return view('welcome', {message: 'Hello World'})
-```
-Then in view file, this data will be converted to component props.
+The Svelte and React file will be automatically converted to a native JavaScript file using the powerful [Vite.js](https://vitejs.dev/) build tool. During development, Vite.js supports Hot Module Replacement (HMR), so if you make changes to the view file, the browser will automatically refresh the content without a full page refresh.
 
-Example of using svelte component:
+To access the `welcome` view that we created, we can use the `view` global method.
+
+```ts
+Route.get("/", () => {
+  return view("welcome");
+});
+```
+
+### Nested Views
+
+If your view is located in a nested folder, such as `resources/view/admin/manage-user.svelte`, you can access it using dot notation.
+
+```ts
+return view("admin.manage-user");
+```
+
+### Passing Data to a View
+
+Similar to component props in React, Vue, or Svelte, you can pass data from the route (or controller) to the view using props.
+
+```ts
+return view("welcome", { message: "Hello World" });
+```
+
+Then, in the view file, the data will be available as component props.
+
+Example using a Svelte component:
+
 ```ts
 <script lang="ts">
-    export let message
+    export let message;
 </script>
-// we can render it using single curly brace
+<!-- Render the prop using curly braces -->
 <h1>{message}</h1>
 ```
-Example of using react component:
-```tsx
-const Welcome = ({message}) =>{
-    return (
-        <h1>{message}</h1>
-    )
-}
 
-export default Welcome
+Example using a React component:
+
+```tsx
+const Welcome = ({ message }) => {
+  return <h1>{message}</h1>;
+};
+
+export default Welcome;
 ```
 
-### Access Http Request from View
-We cannot access server http request data directly on view. For this limitation, lunox provide `onServer` method to access http request instance. We must export this method on module context. `onServer` method is just like `getInitialProps` in `nextjs` framework and only run on server side;
-```ts
+### Accessing the HTTP Request from a View
 
+You cannot directly access the server's HTTP request data in a view. To overcome this limitation, Lunox provides the `onServer` method to access the HTTP request instance. This method should be exported in the module context. The `onServer` method is similar to `getInitialProps` in the Next.js framework and only runs on the server side.
+
+```ts
 <script lang="ts" context="module">
-    import type {OnServer} from 'lunox';
-    export const onServer:OnServer = async (req)=>{
-        // req is http request instance
-        // everything returned from this will be injected to component props
+    import type { OnServer } from '@lunoxjs/core/contracts';
+    export const onServer: OnServer = async (req) => {
+        // req is the HTTP request instance
+        // Everything returned from this method will be injected into the component props
         return {
             user: await req.auth().user()
-        }
-    }
+        };
+    };
 </script>
 
 <script lang="ts">
-    export let message
-    export let user //now we can access user object returned from onServer method
+    export let message;
+    export let user; // Now we can access the user object returned from the onServer method
 </script>
 
 <h1>{message}</h1>
@@ -96,25 +128,27 @@ We cannot access server http request data directly on view. For this limitation,
 {/if}
 ```
 
-For react preset, just export `onServer` constant in component
+For the React preset, you can export the `onServer` constant within the component.
+
 ```tsx
-import type {OnServer} from 'lunox';
+import type { OnServer } from "@lunoxjs/core/contracts";
 
-export const onServer:OnServer = async (req)=>{
-    // req is http request instance
-    // everything returned from this will be injected to component props
-    return {
-        user: await req.auth().user()
-    }
-}
-const Welcome = ({message, user}) =>{
-    return (
-        <>
-            <h1>{message}</h1>
-            {user && (<strong>Hi, {user.username}</strong>)}
-        </>
-    )
-}
+export const onServer: OnServer = async (req) => {
+  // req is the HTTP request instance
+  // Everything returned from this method will be injected into the component props
+  return {
+    user: await req.auth().user(),
+  };
+};
 
-export default Welcome
+const Welcome = ({ message, user }) => {
+  return (
+    <>
+      <h1>{message}</h1>
+      {user && <strong>Hi, {user.username}</strong>}
+    </>
+  );
+};
+
+export default Welcome;
 ```
