@@ -3,60 +3,86 @@ sidebar_position: 2
 ---
 
 # Service Container
-Lunox Service Container is inspired by Laravel's service container. The basic concept is same, but we have limitations because of nodejs nature. In Laravel, we can dynamically performing dependency injection. In Lunox, we must explicitly bind and resolve some class or instance.
+
+The Lunox Service Container is inspired by Laravel's service container. The basic concept is the same, but we have some limitations due to the nature of Node.js. In Laravel, we can dynamically perform dependency injection, whereas in Lunox, we must explicitly bind and resolve classes or instances.
+
+:::info
+We are planning to implement dependency injection in the future using decorators and metadata. This approach will allow for a more elegant and intuitive way of managing dependencies in Lunox.
+:::
+
 ## Binding
-We can bind some class or function to container instance and resolve it later somewhere in your application code.
+
+We can bind classes or functions to the container instance and resolve them later in different parts of our application code.
+
 ### Simple Binding
-Almost all of your service container bindings will be registered on service providers. Use `bind` method to bind some class to container. In Laravel, we can bind class name to container, but there is nothing todo with nodejs. So we must use unique string to binding instance or function.
+
+Most of your service container bindings will be registered in service providers. Use the `bind` method to bind a class to the container. In Laravel, we can bind a class name to the container, but in Node.js, we need to use a unique `string` or `Symbol` as the binding identifier.
+
 ```ts
-import Payment from './Service/Payment';
-import db from './Support/DatabaseManager';
+import Payment from "./Service/Payment";
+import db from "./Support/DatabaseManager";
 
-// bind some class
-this.app.bind('Payment', Payment);
+// Bind a class
+this.app.bind("Payment", Payment);
 
-// bind function or instance
-this.app.bind('Payment', ()=>new Payment('Paypall'));
+// Bind a function or instance
+this.app.bind("Payment", () => new Payment("Paypall"));
 
-// or you can bind simple object to application instance
-this.app.instance('db', db);
+// Bind a simple object to the application instance
+this.app.instance(Symbol("DatabaseManager"), db);
 ```
-`this.app` is Lunox Application instance. See [Application](https://github.com/kodepandai/lunox-framework/blob/main/src/Foundation/Application.ts) class for more detail.
 
-Sometimes you cannot get application instance, for example outside service providers. You can use global `app()` helper to get Lunox Application instance.
+In the above code, `this.app` refers to the Lunox Application instance. Please refer to the [Application](https://github.com/kodepandai/lunox/blob/next/packages/lunox-core/src/Foundation/Application.ts) class for more details.
+
+Sometimes, you may need to access the application instance outside of service providers. In such cases, you can use the global `app()` helper function to get the Lunox Application instance.
+
 ```ts
-app().bind('Payment', Payment);
+app().bind("Payment", Payment);
 ```
+
 ### Singleton Binding
-If you want bind some instance then share the instance object, use singleton instead. Once a singleton binding is resolved, the same object instance will be returned. I think you are familiar with this concept on Laravel.
+
+If you want to bind an instance and share the same object instance, you can use the `singleton` method. Once a singleton binding is resolved, the same object instance will be returned. This concept should be familiar to you if you have used Laravel.
 
 ```ts
-import Counter from './Calc/Counter';
+import Counter from "./Calc/Counter";
 
-this.app.singleton('counter', Counter);
+this.app.singleton("counter", Counter);
 ```
 
 ## Resolving
-To resolve some object from container, currently we only suppport `make` method from application instance. We also can resolve by inserting `string` to `app()` global method. Both example are same
-```ts
-const payment = this.app.make('Payment');
 
-const payment = app('Payment');
+To resolve an object from the container, we currently only support the `make` method from the application instance. Alternatively, you can also resolve an object by using the `string` parameter with the `app()` global method. Both examples are equivalent.
+
+```ts
+const payment = this.app.make("Payment");
+
+const payment = app("Payment");
 ```
+
 :::tip
-We can also resolve instance with property
+We can also resolve an instance with properties.
+
 ```ts
-const payment = this.app.make("counter", {initialValue: 0})
+const payment = this.app.make("counter", { initialValue: 0 });
 ```
+
 :::
-> Note that `app` instance are singleton
 
-## Make Typescript Happy
-When we resolve some instance, typescript didn't know what instance actually is. We can add type hinting to the actual class or interface that resolved. See this example
+Please note that the `app` instance is a singleton.
+
+## Making TypeScript Happy
+
+When we resolve an instance, TypeScript doesn't know the actual type of the instance. To address this, we can add type hinting to the actual class or interface that is being resolved. Here's an example:
+
 ```ts
-import type Route from 'lunox/dist/Routing/Route';
+import type { Router } from "@lunoxjs/core";
 
-const route = app<Route>("route")
+const route = app<Router>("route");
 ```
-now the IDE can detect all instance methods and properties :smile:
-![typescript is happy](./resolving.png "Typescript is happy now")
+
+By providing the type hint, the IDE can detect all the instance methods and properties, making TypeScript happy.
+
+![TypeScript is happy](./resolving.png "TypeScript is happy now")
+
+Please note that I made some adjustments for clarity and improved readability. If you have any further questions or need additional assistance, feel free to ask!
