@@ -3,44 +3,54 @@ sidebar_position: 4
 ---
 
 # Facades
+
 ## Introduction
-Lunox Facades is just like [Laravel Facades](https://laravel.com/docs/8.x/facades). But we have some limitation here, since javascript has no built in magic method. Don't worry, using some workaround and some effort, lunox already has Facades :fire:. 
 
-We will learn more how to use and create Lunox Facades.
+Lunox Facades are similar to [Laravel Facades](https://laravel.com/docs/10.x/facades). However, there are some limitations due to JavaScript not having built-in magic methods. But don't worry, with some workarounds and effort, Lunox already provides Facades.
 
-## Builtin Facades
-This framework already shipped with builtin facades. For example is Route facade. Route facade will resolve Route factory class then magically call method on it.
+Let's learn more about how to use and create Lunox Facades.
+
+## Built-in Facades
+
+The framework comes with some built-in facades. For example, the Route facade resolves the Route factory class and allows you to call methods on it magically.
 
 ```ts
-import {Route} from 'lunox'
+import { Route } from "@lunoxjs/core/facades";
 
-Route.get('/someurl', ()=>return 'something');
+Route.get("/someurl", () => "something");
 ```
-There are many example of facade that you can use it on your application, like `DB, Auth, Response, Session, Storage, Validator` and `View`. We will try to add more helpful facades later.
-## How Lunox Facades Works
-If you check [Lunox Framework](https://github.com/kodepandai/lunox-framework) source code, all facades is live at `src/Support/Facades` folder. Facade is only regular class with some static method `getFacadeAccessor`; This method can return some string or some class. If string is returned, lunox will try to resolve given string as abstract name on Container instances. If class is returned, lunox will register that class as singleton and then resolve it later. 
 
-Facades are fast, it will cached all called facades to use it later. So if you call some facade at second time, it will resolved from facade cached. So basically all Facades are singleton even we register it with method `bind` because of this behaviour. 
+There are many other facades that you can use in your application, such as `DB`, `Auth`, `Response`, `Session`, `Storage`, `Validator`, and `View`. We aim to add more helpful facades in the future.
+
+## How Lunox Facades Work
+
+If you check the [Lunox Framework](https://github.com/kodepandai/lunox) source code, you'll find all the facades located in the `src/Support/Facades` folder. A facade is just a regular class with a static method called `getFacadeAccessor`. This method can return either a string, Symbol or a class. If a string or Symbol is returned, Lunox will try to resolve that as an abstract name on the Container instance. If a class is returned, Lunox will register that class as a singleton and resolve it later.
+
+Facades are fast because they cache all the called facades for later use. So if you call a facade for the second time, it will be resolved from the facade cache. Essentially, all facades behave as singletons, even if they are registered with the `bind` method, due to this caching behavior.
 
 :::caution
 
-Keep in mind, don't use Facade if you want to avoid singleton. For example Class that handle user request or session must not resolved using singleton.
+Keep in mind that if you want to avoid singletons, you should not use Facades. For example, classes that handle user requests or sessions should not be resolved using singletons.
 
 :::
 
 ## How to Create Facades
-To create Facade is simple. Just create some class anywhere on you application that extends lunox `Facade`.
-```ts
 
-import {Facade, useFacade} from 'lunox';
-import MyActualCounterClass from '../pathto/MyActualClass';
+Creating a Facade is simple. Just create a class anywhere in your application that extends the Lunox `Facade` class.
+
+```ts
+import { Facade, useFacade } from "@lunoxjs/core";
+import MyActualCounterClass from "../pathto/MyActualClass";
 
 class Counter extends Facade {
   public static getFacadeAccessor() {
     return MyActualCounterClass;
   }
 }
+
 export default useFacade<MyActualCounterClass>(Counter);
 ```
-If you see on last code, we are not export `Counter` class, but we wrap it with `useFacade` hooks. This hooks is where the magics happen. We simulate magic method via this hook. `useFacade` are generic, so we can inject some interface here to make typescript happy. That's why we can see IDE suggestion when we call `Route` facade.
-![Facade auto resolve actual instance](./facade.png "Facade auto resolve actual instance")
+
+In the example above, we don't export the `Counter` class directly. Instead, we wrap it with the `useFacade` hook. This hook is where the magic happens. We simulate the magic method behavior using this hook. `useFacade` is a generic function, so we can inject an interface to make TypeScript happy. That's why we can see IDE suggestions when we call the `Route` facade.
+
+![Facade auto resolves actual instance](./facade.png "Facade auto resolves actual instance")
