@@ -4,41 +4,27 @@ sidebar_position: 1
 
 # Create Lunox App
 
-Use degit to copy Lunox app skeleton and start build your application with Lunox Framework. For this example we will use svelte preset.
+Creating a Lunoxjs app is easy with just one command:
 
 ```bash
-# init lunox project
-npx degit kodepandai/lunox#svelte my-lunox-app
-
-# install the dependencies
-cd my-lunox-app
-pnpm install
+pnpm create lunox-app
 ```
 
-:::note
-for react preset replace first command with this
+Choose the preset you want and press `Enter`.
 
 ```
-npx degit kodepandai/lunox#react my-lunox-app
+? Please select a preset: (Use arrow keys)
+❯ preset-api (API only without view)
+  preset-react (using React as the view engine)
+  preset-svelte (using Svelte as the view engine)
 ```
 
-:::
-Copy environment example file
+Type the name of your app and press `Enter`.
 
-```bash
-cp .env.example .env
+```
+? Please enter your app name: (my-lunox-app)
 ```
 
-Compile the project for the first time, this is required for us to use artisan command.
+Wait until the installation is complete and follow the instructions to run your Lunox app.
 
-```bash
-pnpm build
-```
-
-Generate key for first time using artisan command
-
-```bash
-pnpm artisan key:generate
-```
-
-Done, you are ready to use Lunox framework :smiley:
+Congratulations! You are now ready to use the Lunox framework. 😊
