@@ -3,24 +3,29 @@ sidebar_position: 1
 ---
 
 # Routing
-## Basic Routing
-Routing in lunox is as simple as Laravel route. To register some route just use `Route` facade. The method is accept uri and closure as route callback.
-```ts
-import {Route} form 'lunox';
 
-Route.get('/greetings', ()=> 'Hello');
+## Basic Routing
+
+Routing in Lunox is as simple as Laravel's routing. To register a route, simply use the `Route` facade. The method accepts a URI and a closure as the route callback.
+
+```ts
+import { Route } from "@lunoxjs/core/facades";
+
+Route.get("/greetings", () => "Hello");
 ```
 
-## Default Route files
-All lunox router is predefined in folder `routes`; There are two file there, `api.ts` and `web.ts`; If you need access to session, use `web.ts` file to register your routes, otherwise use `api.ts`. Both of them is registered at `app/Providers/RouteServiceProvider`. You can add additional router file there.
+## Default Route Files
 
-If you look at registration of `routes/web`, you will see that this route is using `web` middleware. This middleware is referenced at `app/Http/Kernel.ts` on `middlewareGroups` array list. We will talk about middleware later.
+All Lunox routes are predefined in the `routes` folder. There are two files: `api.ts` and `web.ts`. If you need access to sessions, use the `web.ts` file to register your routes. Otherwise, use the `api.ts` file. Both of these files are registered in the `app/Providers/RouteServiceProvider`. You can add additional route files there.
+
+If you look at the registration of `routes/web`, you will see that this route uses the `web` middleware. This middleware is referenced in `app/Http/Kernel.ts` in the `middlewareGroups` array list. We will talk about middleware later.
+
 ```ts
 class Kernel extends BaseKernel {
   protected middleware = [CorsMiddleware];
 
   protected middlewareGroups = {
-    web: [StartSession], // <-- here is web middleware declared.
+    web: [StartSession], // <-- here is the web middleware declared.
   };
 
   protected routeMiddleware = {
@@ -30,8 +35,10 @@ class Kernel extends BaseKernel {
 }
 ```
 
-## Available Router  Methods
-For now, this is available router method
+## Available Route Methods
+
+Currently, the following route methods are available:
+
 ```ts
 - Route.get(uri: string, action: RouteAction)
 - Route.post(uri: string, action: RouteAction)
@@ -39,14 +46,16 @@ For now, this is available router method
 - Route.patch(uri: string, action: RouteAction);
 - Route.put(uri: string, action: RouteAction);
 - Route.all(uri: string, action: RouteAction);
-- Route.getRoutes() //return all registered routes
-- Route.prefix(prefix: string) // add prefix to route
-- Route.middleware(middleware: string | Middleware | (string|Middleware)[]) // add middleware to route
-- Route.group(callback: string | Callback): Promise<void>; // grouping route
+- Route.getRoutes() // returns all registered routes
+- Route.prefix(prefix: string) // adds a prefix to the route
+- Route.middleware(middleware: string | Middleware | (string | Middleware)[]) // adds middleware to the route
+- Route.group(callback: string | Callback): Promise<void>; // groups routes
 ```
 
 ## Route Parameters
-Lunox is build on top of [Polka](https://github.com/lukeed/polka) server. So the uri patterns are inherit from it. 
+
+Lunox is built on top of [Polka](https://github.com/lukeed/polka) server, so the URI patterns are inherited from it. Here are some examples of URI patterns:
+
 ```bash
 - static (/users)
 - named parameters (/users/:id)
@@ -56,21 +65,28 @@ Lunox is build on top of [Polka](https://github.com/lukeed/polka) server. So the
 ```
 
 ## Route Action
-In lunox, we cannot do some dependency injection to route action like we did in Laravel. So, to make route action behaviour laravel like, just remember that first parameter of route action is always `Request` instance, the rest is route params.
+
+For now, we cannot perform dependency injection in route actions like we can in Laravel. So, to achieve Laravel-like behavior in route actions, remember that the first parameter of the route action is always the `Request` instance, and the rest are the route parameters.
+
 ```ts
-Route.get('/hello/{id}/{message}', (req: Request, id, message) =>{
-  console.log(req instanceof Request) // return true
-  console.log(id) // return param id
-  console.log(message) // return param message
-  
-  // we can access all request method here
+import { Route } from "@lunoxjs/core/facades";
+import { Request } from "@lunoxjs/core";
+
+Route.get("/hello/{id}/{message}", (req: Request, id, message) => {
+  console.log(req instanceof Request); // returns true
+  console.log(id); // returns the "id" parameter
+  console.log(message); // returns the "message" parameter
+
+  // We can access all request methods here
   req.all();
-  req.get('user_id');
-  // we will learn about request instance later
-  return 'OK';
-  // don't forget to return something here otherwise your app will hang
-})
+  req.get("user_id");
+  // We will learn more about the Request instance later
+
+  // using global request() helper also works
+  request().all();
+  request().get("user_id");
+
+  return "OK";
+  // Don't forget to return something here;
+});
 ```
-
-
-
