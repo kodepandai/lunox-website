@@ -8,24 +8,29 @@ Let's discover **Lunox** in less than 5 minutes.
 
 ## Overview
 
-Lunox is NodeJs framework that aims to bring Laravel features in NodeJs environment. If you are not familiar with Laravel, you can check the [website](https://laravel.com/). We will support all basic Laravel features, but we make it as simple as possible.
+Lunox is a Node.js framework that aims to bring Laravel's features to the Node.js environment. If you are not familiar with Laravel, you can check out their [website](https://laravel.com/). We support all basic Laravel features but make it as simple as possible.
 
-## Why using Lunox Framework
+## Why Use the Lunox Framework
 
-Why choosing Lunox? This is some basic guide that helped you decide to use lunox.
-1. Lunox is good if you want static typing and modern syntax of nodejs. Lunox is using ESM module and typescript by default.
-2. Lunox is perfect for developer who like lighweight MVC framework. Lunox built in top of [polka](https://github.com/lukeed/polka) as http server and [vite](https://vitejs.dev/) as frontend tooling.
-3. Lunox using svelte as template engine. Next time we will support other javascript framework like react or vue.
+Why choose Lunox? Here's a basic guide to help you decide.
 
-## Comparing with Other Framework
+1. Lunox is ideal if you want static typing and the modern syntax of Node.js. It uses ESM modules and TypeScript by default.
+2. Lunox is perfect for developers who prefer a lightweight MVC framework. It is built on top of [polka](https://github.com/lukeed/polka) as the HTTP server and [vite](https://vitejs.dev/) as the frontend tooling.
+3. Lunox supports React and Svelte as template engines. We plan to support other languages in the future.
+
+## Comparing with Other Frameworks
+
 ### Syntax
-There are many nodejs framework that inspired by Laravel, such as adonis and nestjs. As a Laravel developer, it's still hard to move from Laravel to adonis or nestjs. They are good framework, but they cannot replace Laravel, they have their own style. Lunox is born as a bridge for Laravel developer that come to nodejs environment. Lunox syntax is made as close as possible to Laravel. For example is how to use facade, macro, service container, middleware, and artisan command. If you are Laravel developer, you should love this framework.
+
+There are many Node.js frameworks inspired by Laravel, such as Adonis and Nest.js. As a Laravel developer, transitioning from Laravel to Adonis or Nest.js can be challenging. While these are good frameworks, they cannot replace Laravel as they have their own style. Lunox was created as a bridge for Laravel developers transitioning to the Node.js environment. Lunox's syntax is designed to be as close as possible to Laravel. For example, it includes how to use facades, macros, service containers, middleware, and artisan commands. If you are a Laravel developer, you should love this framework.
 
 ### Template Engine
-Many framework use their own template engine, for example `edge` and `hbs`, but Lunox have another approach. Since we are in nodejs environment and there are many frontend library or framework available such as `reactjs`, `vue`, and `svelte`, so why not integrate them in our application. For this reason Lunox shipped with `vite` as frontend tooling and by default using `svelte` as view. For now Lunox support `svelte` and `react` as template engine. Next time we will integrate other language too, just wait for it.
+
+Many frameworks use their own template engines, such as `edge` and `hbs`, but Lunox takes a different approach. Since we are in the Node.js environment with various frontend libraries and frameworks available, such as `React.js`, `Vue`, and `Svelte`, we integrate them into our application. For this reason, Lunox is shipped with `vite` as the frontend tooling and uses `svelte` as the default view. Currently, Lunox supports `svelte` and `react` as template engines. We will integrate other languages in the future, so stay tuned.
 
 ## Prerequisites
-For a better development experience, here is the recomended system requirements:
-1. use pnpm as package manager 
-2. use nodejs  v14.x or more. v16.x (stable version) is recommended
 
+For a better development experience, here are the recommended system requirements:
+
+1. Use pnpm as the package manager.
+2. Use Node.js v14.x or later. v16.x (stable version) is recommended.

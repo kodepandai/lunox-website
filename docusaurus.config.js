@@ -22,6 +22,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          lastVersion: "current",
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl: "https://github.com/kodepandai/lunox-website/edit/main/",
@@ -66,6 +67,9 @@ const config = {
           {
             type: "localeDropdown",
             position: "right",
+          },
+          {
+            type: "docsVersionDropdown",
           },
         ],
       },
