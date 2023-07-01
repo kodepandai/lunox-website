@@ -5,127 +5,148 @@ sidebar_position: 2
 # Middleware
 
 ## Introduction
-Middleware concept are same with [Laravel Middleware](https://laravel.com/docs/8.x/middleware). Middleware run before you application main logic. For example we can filter user request before entering our application, check cookie or session, and more.
+
+The concept of middleware in Lunox is the same as [Laravel Middleware](https://laravel.com/docs/10.x/middleware). Middleware runs before the main logic of your application. For example, you can filter user requests before they enter your application, check cookies or sessions, and more.
 
 ## Defining Middleware
-All middleware files is located at `app/Middleware` folder.
+
+All middleware files are located in the `app/Middleware` folder.
 
 :::tip
-use artisan command to create middleware
+Use the artisan command to create middleware:
+
 ```
 pnpm artisan make:middleware Auth
 ```
+
 :::
 
-## Object Based and Class Based Middleware
+## Object-Based and Class-Based Middleware
 
-Middleware can be plain object or class based. For simple middleware use plain object instead. Below is example of middleware using plain object.
+Middleware can be plain objects or class-based. For simple middleware, use plain objects. Here's an example of middleware using a plain object:
+
 ```ts
-import type {Middleware} from 'lunox';
+import type { Middleware } from "@lunoxjs/core/contracts";
 
 const AuthMiddleware: Middleware = {
-    async handle(req, next){
-        // do authentication here
-        if(!await req.auth().check()){
-            throw new ApiException("Please login", 401);
-        }
-
-        return next(req)
+  async handle(req, next) {
+    // Perform authentication here
+    if (!(await req.auth().check())) {
+      throw new ApiException("Please login", 401);
     }
-}
 
-export default AuthMidleware
+    return next(req);
+  },
+};
+
+export default AuthMiddleware;
 ```
 
-And this is equivalent Auth middleware using class.
+And here's an equivalent Auth middleware using a class:
+
 ```ts
-import type {Middleware} from 'lunox';
+import type { Middleware } from "@lunoxjs/core/contracts";
 
 class AuthMiddleware implements Middleware {
-    async handle(req, next){
-        // do authentication here
-        if(!await req.auth().check()){
-            throw new ApiException("Please login", 401);
-        }
-
-        return next(req)
+  async handle(req, next) {
+    // Perform authentication here
+    if (!(await req.auth().check())) {
+      throw new ApiException("Please login", 401);
     }
+
+    return next(req);
+  }
 }
 
-export default AuthMidleware
+export default AuthMiddleware;
 ```
 
 ## Middleware Types
-There are three types of middleware. *Before Middleware*, *After Middleware*, and *Native Middleware*. Usually you will only create *Before Middleware*;
+
+There are three types of middleware: _Before Middleware_, _After Middleware_, and _Native Middleware_. Usually, you will only create _Before Middleware_.
+
 ### Before Middleware
-Before middleware is middleware that run before route action is excecuted. For example middleware that handle user authentication. To create *before middleware* just create `handle` method. See this example
+
+Before middleware is middleware that runs before the route action is executed. For example, middleware that handles user authentication. To create _before middleware_, simply create a `handle` method. See this example:
 
 ```ts
 class AuthMiddleware implements Middleware {
-    async handle(req, next){
-        // do authentication here
-        if(!await req.auth().check()){
-            throw new ApiException("Please login", 401);
-        }
-
-        return next(req)
+  async handle(req, next) {
+    // Perform authentication here
+    if (!(await req.auth().check())) {
+      throw new ApiException("Please login", 401);
     }
+
+    return next(req);
+  }
 }
 ```
+
 #### Next Method
-Next method can accept one arguments that is `Http/Request` instance. This will make sure that request instance is updated on next step. See above example.
+
+The `next` method can accept one argument, which is the `Http/Request` instance. This ensures that the request instance is updated in the next step. See the example above.
 
 :::note
-Before middleware must return instance of lunox `Http/Response`. The return type of `next` function is `Http/Response`
+Before middleware must return an instance of the Lunox `Http/Response`. The return type of the `next` function is `Http/Response`.
 :::
+
 ### After Middleware
-Sometimes we want to add some action after route action is excecuted but before response is sent to browser. *After middleware* is exists to handle that situation. For example lunox `EncryptCookie` middleware is using *before middleware* to decrypt incoming cookie and *after middleware* to encrypt it back. Just create `handleAfter` method to implement *after middleware*.
+
+Sometimes we want to perform some actions after the route action is executed but before the response is sent to the browser. _After middleware_ exists to handle that situation. For example, the Lunox `EncryptCookie` middleware uses _before middleware_ to decrypt the incoming cookie and _after middleware_ to encrypt it back. Simply create a `handleAfter` method to implement _after middleware_.
+
 ```ts
 class EncryptCookie implements Middleware {
-    async handleAfter(res){
-        // do authentication here
-        res = this.encrypt(res);
-        return res;
-    }
+  async handleAfter(res) {
+    // Perform encryption here
+    res = this.encrypt(res);
+    return res;
+  }
 }
 ```
+
 :::note
-Similar to *Before Middleware*, *After Middleware* must return lunox `Http/Response` instance. The difference is the parameter of `handleAfter` method is instance of `Http/Response` instead of `Http/Request` and `NextFunction`.
+Similar to _Before Middleware_, _After Middleware_ must return a Lunox `Http/Response` instance. The difference is that the parameter of the `handleAfter` method is an instance of `Http/Response` instead of `Http/Request` and `NextFunction`.
 :::
 
 ### Native Middleware
-Because of big community of nodejs, there are bunch of middleware package that supported for `express` and `polka` framework. Lunox is built in top of `polka`. So we can use that package inside lunox app. For example is middleware to handle `cors`. We can implement this kind of middleware using *Native Middleware*. Just create `handleNative` method inside your middleware.
+
+Due to the large community of Node.js, there are many middleware packages that are supported for the `express` and `polka` frameworks. Lunox is built on top of `polka`, so you can use those packages within a Lunox app. For example, to handle CORS, you can implement this kind
+
+of middleware using _Native Middleware_. Simply create a `handleNative` method inside your middleware.
 
 ```ts
-// in express or polka application
-import cors from 'cors';
+// In an Express or Polka application
+import cors from "cors";
 
-// in lunox
+// In Lunox
 const CorsMiddleware: Middleware = {
-    async handleNative(req, res, next){
-        return cors({
-            // ..config
-        })(req, res, next)
-    }
-}
+  async handleNative(req, res, next) {
+    return cors({
+      // ...config
+    })(req, res, next);
+  },
+};
 ```
+
 :::caution
-`req`, `res`, and `next` parameter of `handleNative` method is instance of `ServerRequest`, `ServerResponse` and `NextFunction` of `polka` http server. It is also suitable for `express` middleware package.
+The `req`, `res`, and `next` parameters of the `handleNative` method are instances of `ServerRequest`, `ServerResponse`, and `NextFunction` of the Polka HTTP server. They are also suitable for `express` middleware packages.
 :::
 
 ## Registering Middleware
-Middleware is registered on `app/Http/Kernel`. You can register your custom middleware in three different types in http Kernel.
+
+Middleware is registered in `app/Http/Kernel`. You can register your custom middleware in three different types in the HTTP Kernel.
+
 ```ts
 class Kernel extends BaseKernel {
-  // global middleware
+  // Global middleware
   protected middleware = [CorsMiddleware];
 
-  // group middleware
+  // Group middleware
   protected middlewareGroups = {
     web: [StartSession],
   };
 
-  // route middleware
+  // Route middleware
   protected routeMiddleware = {
     auth: AuthMiddleware,
     session: SessionMiddleware,
@@ -134,58 +155,77 @@ class Kernel extends BaseKernel {
 
 export default Kernel;
 ```
+
 ### Global Middleware
-This middleware is run on every request made. So if you want to put cors middleware, this is the good place. 
+
+This middleware runs on every request made. So if you want to include the CORS middleware, this is the appropriate place.
+
 ### Group Middleware
-You can group two or more middlewares to one group. Then you just assign this group name to some route. For example `web` group middleware. See `app/Providers/RouteServiceProvider.ts` to see how to assign `web` group middleware.
+
+You can group two or more middlewares into one group and then assign this group name to some routes. For example, the `web` group middleware. See `app/Providers/RouteServiceProvider.ts` to see how to assign the `web` group middleware.
+
 ```ts
 class RouteServiceProvider extends ServiceProvider {
   async register() {}
   async boot() {
-    await Route.middleware("web") //<-- here we assign web group  middleware to web based routes.
-        .group(base_path("routes/web"));
+    await Route.middleware("web") //<-- Here we assign the web group middleware to web-based routes.
+      .group(base_path("routes/web"));
     await Route.prefix("/api").group(base_path("routes/api"));
   }
 }
 ```
 
 ### Route Middleware
-This is just key pair of middleware (aliasing middleware). Route middleware can be assigned to any routes.
+
+This is a key-value pair of middleware (aliasing middleware). Route middleware can be assigned to any routes.
+
 ```ts
-Route.get('/someuri', ()=>'OK').middleware('auth');
+Route.get("/someuri", () => "OK").middleware("auth");
 
 // or group of routes
-Route.middleware('auth').group(()=>{
-    // all routes in this group will use auth middleware
-    Route.get('/someuri', ()=>'OK'); 
-    Route.get('/another', ()=>'OK');
-})
+// remember group() method return Promise so we add await here
+await Route.middleware("auth").group(() => {
+  // All routes in this group will use the auth middleware
+  Route.get("/someuri", () => "OK");
+  Route.get("/another", () => "OK");
+});
 ```
 
 :::caution
-`Route.group` method is asyncrounous, so make sure to call this method on last chain or using `await`
-
-```ts
-// this will not work
-Route.group(()=>{
-    // some routes
-}).middleware('auth')
-
-// This will work
-Route.middleware('auth').group(()=>{
-    // some routes
-})
-// This is fine
-await Route.group(()=>{
-    // some routes
-}).middleware('auth')
-```
+The `Route.group` method is asynchronous, so make sure to `await` this method.
 :::
 
-`Route.middleware` method can accept array of middleware. So you can do something like this
+The `Route.middleware` method can accept an array of middleware. So you can do something like this:
+
 ```ts
-Route.get('/someurl', ()=>'OK').middleware(['auth', 'admin'])
+Route.get("/someurl", () => "OK").middleware(["auth", "admin"]);
 ```
+
+## Middleware Params
+
+The `handle` method of Middleware can have parameters. We can access them using the following example:
+
+```ts
+class ExampleMiddleware implements Middleware {
+  async handle(req, next, param1, param2) {
+    // Use the params here
+    console.log(param1, param2);
+
+    return next(req);
+  }
+}
+```
+
+In the above code, the `handle` method of the middleware accepts `param1` and `param2` as additional parameters.
+
+Then, in the route, we can set the params after the middleware name followed by ":" as shown below:
+
+```ts
+Route.get("/example", () => "OK").middleware("example:param1,param2");
+```
+
+In the route definition above, the middleware named "example" is applied, and the values "param1" and "param2" are passed as parameters to the middleware.
+
 :::note TODO
-`Route.withoutMiddleware` method to exclude middleware on some route
+`Route.withoutMiddleware` method to exclude middleware on some routes.
 :::
