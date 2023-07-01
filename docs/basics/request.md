@@ -2,79 +2,106 @@
 sidebar_position: 4
 ---
 
-# Http Request
+# HTTP Request
 
 ## Introduction
-Lunox Http Request is just wrapper for NodeJs http requests. We add some usefull methods on this Request instance, such as `auth(), session(), and files()`
-## Accessing Request
-The are three place to access Lunox Http Request instance.
+
+Lunox HTTP Request is just a wrapper for Node.js HTTP requests. We have added some useful methods to this Request instance, such as `auth()`, `session()`, and `files()`.
+
+## Accessing the Request
+
+There are several places to access the Lunox HTTP Request instance:
+
 1. In middleware;
-2. In Route action; and
-3. In `onServer` view method
-### Access Request Instance on Middleware
-We can access request instance on middleware's `handle` method.
-```ts
+2. In route actions; and
+3. In the `onServer` method of views.
+4. Using global `request()` helper.
 
+### Accessing Request Instance in Middleware
+
+You can access the request instance in the middleware's `handle` method. Here's an example:
+
+```ts
 const SomeMiddleware: Middleware = {
-    async handle(req, next){
-        console.log(req) // instance of Http Request
-    }
-}
-
+  async handle(req, next) {
+    console.log(req); // instance of HTTP Request
+  },
+};
 ```
-### Access Request Instance from Route Action
-Remember, first parameter of route action is always `request` instance;
+
+### Accessing Request Instance in Route Actions
+
+Remember, the first parameter of a route action is always the request instance. Here's an example:
+
 ```ts
-Route.get('/hello', (req: Request, id, message) =>{
-  console.log(req instanceof Request) // return true
-  return 'OK';
-})
+Route.get("/hello", (req: Request, id, message) => {
+  console.log(req instanceof Request); // returns true
+  return "OK";
+});
 ```
 
-### Access Request on View
-We also can access request instance on view file via exporting `onServer` method. We will discuss about view later.
+### Accessing Request in Views
+
+You can also access the request instance in view files by exporting an `onServer` method. We will discuss views in more detail later.
 
 ## Retrieving Input
-### Retrieving All Input
-You can get all incoming request input using `all` method.
-```ts
-req.all() // return object with key - value pair.
-```
-### Retrieving Single Input
-We can access user input or query was sent to server using `get` method.
-```ts
-req.get('user_id');
-```
-### Retrieving a Portion of the Input Data
-If you want to get only portion of input data, we already shipped `only` method that accept array of string.
-```ts
-req.only(['email', 'password']);
 
+### Retrieving All Input
+
+You can get all incoming request input using the `all` method. It returns an object with key-value pairs representing the input data.
+
+```ts
+req.all(); // returns an object with key-value pairs
 ```
+
+### Retrieving Single Input
+
+You can access user input or query data sent to the server using the `get` method.
+
+```ts
+req.get("user_id");
+```
+
+### Retrieving a Portion of the Input Data
+
+If you want to retrieve only a portion of the input data, you can use the `only` method, which accepts an array of strings representing the desired input fields.
+
+```ts
+req.only(["email", "password"]);
+```
+
 ### Merging Additional Input
-You can merge additional data to current request input. If the key is same as current available input, the last one is used.
+
+You can merge additional data into the current request input. If a key already exists in the current input, the last one provided will be used.
+
 ```ts
 req.merge({
-  name: 'something'
-})
+  name: "something",
+});
 ```
 
 ## Files
-### Access Form Data
-Lunox is auto parsing form data. We can access all files from request using `file` and `allFiles` method;
-```ts
-// access single file
-req.file('photo') // return instance of UploadedFile instance
-req.allFiles() // return object with key - UploadedFile pair
-```
-The result of `file` method is `UploadedFile` instance. This instance has some usefull method to access uploaded file property
-```ts
-const photo = req.file('photo')
-photo.path() // get uploaded path
-photo.move(directory: string, name?:string|null) // move file to some directory
-photo.getClientMimeType() // get client mime type
-photo.getClientOriginalExtension() // get client original extension
-photo.getClientOriginalName() // get client original name
-```
-We will add another usefull method later
 
+### Accessing Form Data
+
+Lunox automatically parses form data. You can access all uploaded files from the request using the `file` and `allFiles` methods.
+
+```ts
+// Access a single file
+req.file("photo"); // returns an instance of the UploadedFile class
+
+req.allFiles(); // returns an object with key-UploadedFile pairs
+```
+
+The result of the `file` method is an `UploadedFile` instance. This instance has some useful methods to access the uploaded file's properties.
+
+```ts
+const photo = req.file('photo');
+photo.path(); // get the uploaded file's path
+photo.move(directory: string, name?:string|null); // move the file to a specific directory
+photo.getClientMimeType(); // get the client's MIME type
+photo.getClientOriginalExtension(); // get the client's original file extension
+photo.getClientOriginalName(); // get the client's original file name
+```
+
+We may add more useful methods in the future.
